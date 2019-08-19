@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"VetApp.Med"}],"uuid":"2e878c7532474fe59b1ee2cd257eda51"}
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"VetApp.Med"}],"uuid":"10449edc562a41f882783fdb4de30092"}
