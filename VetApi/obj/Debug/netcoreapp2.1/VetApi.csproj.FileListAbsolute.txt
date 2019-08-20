@@ -1,0 +1,14 @@
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.csprojAssemblyReference.cache
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.csproj.CoreCompileInputs.cache
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.RazorAssemblyInfo.cache
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.RazorAssemblyInfo.cs
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.AssemblyInfoInputs.cache
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.AssemblyInfo.cs
+/Users/juansoler/Projects/VetApi/VetApi/bin/Debug/netcoreapp2.1/VetApi.deps.json
+/Users/juansoler/Projects/VetApi/VetApi/bin/Debug/netcoreapp2.1/VetApi.runtimeconfig.json
+/Users/juansoler/Projects/VetApi/VetApi/bin/Debug/netcoreapp2.1/VetApi.runtimeconfig.dev.json
+/Users/juansoler/Projects/VetApi/VetApi/bin/Debug/netcoreapp2.1/VetApi.dll
+/Users/juansoler/Projects/VetApi/VetApi/bin/Debug/netcoreapp2.1/VetApi.pdb
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.RazorTargetAssemblyInfo.cache
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.dll
+/Users/juansoler/Projects/VetApi/VetApi/obj/Debug/netcoreapp2.1/VetApi.pdb

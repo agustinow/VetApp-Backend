@@ -14,7 +14,7 @@ namespace VetApi.Models
 
         [BsonElement("Pet_ID")]
         [JsonProperty("Pet_ID")]
-        public string Pet_ID { get; set; }
+        public Int32 Pet_ID { get; set; }
 
         [BsonElement("Name")]
         [JsonProperty("Name")]
@@ -22,7 +22,7 @@ namespace VetApi.Models
 
         [BsonElement("Age")]
         [JsonProperty("Age")]
-        public string Age { get; set; }
+        public DateTime Age { get; set; }
 
         [BsonElement("Genus")]
         [JsonProperty("Genus")]
@@ -38,7 +38,12 @@ namespace VetApi.Models
 
         [BsonElement("Neutered")]
         [JsonProperty("Neutered")]
-        public string Neutered { get; set; }
+        public Boolean Neutered { get; set; }
+
+        [BsonElement("Owner_ID")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        [JsonProperty("Owner_ID")]
+        public string Owner_ID { get; set; }
     }
 
     public class Owner
@@ -57,7 +62,7 @@ namespace VetApi.Models
 
         [BsonElement("Member_Start")]
         [JsonProperty("Member_Start")]
-        public string Member_Start { get; set; }
+        public DateTime Member_Start { get; set; }
 
         [BsonElement("Cell_Phone")]
         [JsonProperty("Cell_Phone")]
@@ -108,10 +113,11 @@ namespace VetApi.Models
 
         [BsonElement("Days_Off")]
         [JsonProperty("Days_Off")]
-        public Array Days_Off { get; set; }
+        public string Days_Off { get; set; }
     }
 
     public class Med
+
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -121,21 +127,56 @@ namespace VetApi.Models
         [JsonProperty("Name")]
         public string Name { get; set; }
 
-        [BsonElement("Quantity")]
-        [JsonProperty("Quantity")]
-        public Int32 Quantity { get; set; }
-
-        [BsonElement("Concentration")]
-        [JsonProperty("Concentration")]
-        public string Concentration { get; set; }
-
         [BsonElement("Category")]
         [JsonProperty("Category")]
         public string Category { get; set; }
 
+        [BsonElement("Pills")]
+        [JsonProperty("Pills")]
+        public Int32 Pills { get; set; }
+
+        [BsonElement("Volume")]
+        [JsonProperty("Volume")]
+        public Int32 Volume { get; set; }
+
+        [BsonElement("Concentration")]
+        [JsonProperty("Concentration")]
+        public Int32 Concentration { get; set; }
+
         [BsonElement("Price")]
         [JsonProperty("Price")]
-        public Int32 Price { get; set; }
+        public Double Price { get; set; }
     }
+
+    public class Vacc
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        [BsonElement("Name")]
+        [JsonProperty("Name")]
+        public string Name { get; set; }
+
+        [BsonElement("Genus")]
+        [JsonProperty("Genus")]
+        public string Genus { get; set; }
+
+        [BsonElement("Price")]
+        [JsonProperty("Price")]
+        public Double Price { get; set; }
+
+        [BsonElement("Dosis_Less_16_Weeks")]
+        [JsonProperty("Dosis_Less_16_Weeks")]
+        public string Dosis_Less_16_Weeks { get; set; }
+
+        [BsonElement("Dosis_More_16_Weeks")]
+        [JsonProperty("Dosis_More_16_Weeks")]
+        public string Dosis_More_16_Weeks { get; set; }
+
+        [BsonElement("Frequency")]
+        [JsonProperty("Frequency")]
+        public string Frequency { get; set; }
+}
 
 }
