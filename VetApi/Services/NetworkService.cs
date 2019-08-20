@@ -28,6 +28,9 @@ namespace VetApi.Services
         public List<Pet> GetAllPet() =>
             _pets.Find(pets => true).ToList();
 
+        public List<Pet> GetAllPetsOf(string id) =>
+            _pets.Find(pet => pet.Owner_ID == id).ToList();
+
         public Pet GetPet(string id) =>
             _pets.Find<Pet>(pets => pets.Id == id).FirstOrDefault();
 
@@ -36,6 +39,9 @@ namespace VetApi.Services
 
         public Owner GetOwner(string id) =>
             _owners.Find<Owner>(owners => owners.Id == id).FirstOrDefault();
+
+        public Owner GetOwner(Int32 id) =>
+            _owners.Find<Owner>(owners => owners.Member_ID == id).FirstOrDefault();
 
         public List<Vet> GetAllVet() =>
             _vets.Find(vets => true).ToList();

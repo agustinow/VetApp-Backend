@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using VetApi.Models;
 using VetApi.Services;
@@ -34,6 +35,7 @@ namespace VetApi.Controllers
         }
 
         [HttpPost("vets")]
+        [Authorize(Policy = "RequireAdmin")]
         public ActionResult<Vet> CreateVet(Vet vet)
         {
             _networkservice.CreateVet(vet);
@@ -42,6 +44,7 @@ namespace VetApi.Controllers
         }
 
         [HttpPut("vets/{id:length(24)}")]
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult UpdateVet(string id, Vet vetIn)
         {
             var vet = _networkservice.GetVet(id);
@@ -57,6 +60,7 @@ namespace VetApi.Controllers
         }
 
         [HttpDelete("vets/{id:length(24)}")]
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult RemoveVet(string id)
         {
             var vet = _networkservice.GetVet(id);
@@ -76,6 +80,20 @@ namespace VetApi.Controllers
         [HttpGet("pets")]
         public ActionResult<List<Pet>> GetPet() =>
             _networkservice.GetAllPet();
+
+        [HttpGet("petsof/{id:length(24)}", Name = "GetPetsOfOID")]
+        public ActionResult<List<Pet>> GetPetsOfOID(string id) =>
+            _networkservice.GetAllPetsOf(id);
+
+        [HttpGet("petsof/{id}", Name = "GetPetsOf")]
+        public ActionResult<List<Pet>> GetPetsOf(int id)
+        {
+            var user = _networkservice.GetOwner(id);
+            if (user == null) return NotFound();
+            var pets = _networkservice.GetAllPetsOf(user.Id);
+            if (pets == null) return NoContent();
+            return pets;
+        }
 
         [HttpGet("pets/{id:length(24)}", Name = "GetPet")]
         public ActionResult<Pet> GetPet(string id)
