@@ -195,4 +195,79 @@ namespace VetApi.Models
         public string Frequency { get; set; }
 }
 
+    public class TypeItem
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        [BsonElement("Number")]
+        [JsonProperty("Number")]
+        public Int32 Number { get; set; }
+
+        [BsonElement("Type")]
+        [JsonProperty("Type")]
+        public string Type { get; set; }
+    }
+
+    public class Payment
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        [BsonElement("OwnerID")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        [JsonProperty("OwnerID")]
+        public string OwnerID { get; set; }
+
+        [BsonElement("Date")]
+        [JsonProperty("Date")]
+        public DateTime Date { get; set; }
+
+        [BsonElement("Amount")]
+        [JsonProperty("Amount")]
+        public string Amount { get; set; }
+
+        [BsonElement("Type")]
+        [JsonProperty("Type")]
+        public Int32 Type { get; set; }
+
+        [BsonElement("IsPaid")]
+        [JsonProperty("IsPaid")]
+        public bool IsPaid { get; set; }
+    }
+
+    public class Consult
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        [BsonElement("PetID")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        [JsonProperty("PetID")]
+        public string PetID { get; set; }
+
+        [BsonElement("VetID")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        [JsonProperty("VetID")]
+        public string VetID { get; set; }
+
+        [BsonElement("Date")]
+        [JsonProperty("Date")]
+        public DateTime Date { get; set; }
+
+        [BsonElement("Message")]
+        [JsonProperty("Message")]
+        public string Message { get; set; }
+
+        [BsonElement("Meds")]
+        [JsonProperty("Meds")]
+        public BsonDocument Meds { get; set; }
+
+        [BsonElement("Vaccs")]
+        [JsonProperty("Vaccs")]
+        public BsonDocument Vaccs { get; set; }
+    }
 }

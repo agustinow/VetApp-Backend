@@ -12,6 +12,9 @@ namespace VetApi.Services
         private readonly IMongoCollection<Vet> _vets;
         private readonly IMongoCollection<Med> _med;
         private readonly IMongoCollection<Vacc> _vacc;
+        private readonly IMongoCollection<TypeItem> _types;
+        private readonly IMongoCollection<Payment> _payments;
+        private readonly IMongoCollection<Consult> _consults;
 
         public NetworkService(IDatabaseSettings settings)
         {
@@ -23,6 +26,9 @@ namespace VetApi.Services
             _vets = database.GetCollection<Vet>(settings.VetCollectionName);
             _med = database.GetCollection<Med>(settings.MedCollectionName);
             _vacc = database.GetCollection<Vacc>(settings.VaccCollectionName);
+            _types = database.GetCollection<TypeItem>(settings.TypeCollectionName);
+            _payments = database.GetCollection<Payment>(settings.PaymentCollectionName);
+            _consults = database.GetCollection<Consult>(settings.ConsultCollectionName);
         }
         
         public List<Pet> GetAllPet() =>
@@ -61,7 +67,26 @@ namespace VetApi.Services
         public Vacc GetVacc(string id) =>
             _vacc.Find<Vacc>(vacc => vacc.Id == id).FirstOrDefault();
 
+        public List<Consult> GetAllConsults() =>
+            _consults.Find(consult => true).ToList();
 
+        public Consult GetConsult(string id) =>
+            _consults.Find<Consult>(consult => consult.Id == id).FirstOrDefault();
+
+        public List<TypeItem> GetAllTypes() =>
+            _types.Find(type => true).ToList();
+
+        public TypeItem GetType(string id) =>
+            _types.Find(type => type.Id == id).FirstOrDefault();
+
+        public List<Payment> GetAllPayments() =>
+            _payments.Find(payment => true).ToList();
+
+        public List<Payment> GetAllPaymentsOf(string id) =>
+            _payments.Find(payment => payment.OwnerID == id).ToList();
+
+        public Payment GetPayment(string id) =>
+            _payments.Find(payment => payment.Id == id).FirstOrDefault();
 
         public Vet CreateVet(Vet vet)
         {
@@ -128,6 +153,7 @@ namespace VetApi.Services
 
         public void RemoveVacc(string id) =>
             _vacc.DeleteOne(vacc => vacc.Id == id);
+
 
         //CHECK USER
         public string IsValidUser(string username, string password)

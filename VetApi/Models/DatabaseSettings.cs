@@ -1,7 +1,7 @@
 ﻿using System;
 namespace VetApi.Models
 {
-    public class DatabaseSettings: IDatabaseSettings
+    public class DatabaseSettings : IDatabaseSettings
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
@@ -10,6 +10,9 @@ namespace VetApi.Models
         public string MedCollectionName { get; set; }
         public string VaccCollectionName { get; set; }
         public string OwnersCollectionName { get; set; }
+        public string TypeCollectionName { get; set; }
+        public string PaymentCollectionName { get; set; }
+        public string ConsultCollectionName { get; set; }
     }
 
     public interface IDatabaseSettings
@@ -21,5 +24,8 @@ namespace VetApi.Models
         string MedCollectionName { get; set; }
         string VaccCollectionName { get; set; }
         string OwnersCollectionName { get; set; }
-    }
+        string TypeCollectionName { get; set; }
+        string PaymentCollectionName { get; set; }
+        string ConsultCollectionName { get; set; }
+        }
 }

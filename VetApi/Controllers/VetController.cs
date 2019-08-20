@@ -317,5 +317,84 @@ namespace VetApi.Controllers
 
             return NoContent();
         }
+
+        //CONSULTS
+        [HttpGet("consults")]
+        public ActionResult<List<Consult>> GetConsults() =>
+            _networkservice.GetAllConsults();
+
+        [HttpGet("consults/{id:length(24)}", Name = "GetConsult")]
+        public ActionResult<Consult> GetConsult(string id)
+        {
+            var consult = _networkservice.GetConsult(id);
+
+            if (consult == null)
+            {
+                return NotFound();
+            }
+
+            return consult;
+        }
+
+        //PAYMENTS
+        [HttpGet("payments")]
+        public ActionResult<List<Payment>> GetPayments() =>
+            _networkservice.GetAllPayments();
+
+        [HttpGet("payments/{id:length(24)}", Name = "GetPayment")]
+        public ActionResult<Payment> GetPayment(string id)
+        {
+            var payment = _networkservice.GetPayment(id);
+
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            return payment;
+        }
+
+        [HttpGet("paymentsof/{id:length(24)}", Name = "GetPaymentsOfOID")]
+        public ActionResult<List<Payment>> GetPaymentsOfOID(string id)
+        {
+            var payments = _networkservice.GetAllPaymentsOf(id);
+
+            if (payments == null)
+            {
+                return NoContent();
+            }
+
+            return payments;
+        }
+
+        [HttpGet("paymentsof/{id}", Name = "GetPaymentsOf")]
+        public ActionResult<List<Payment>> GetPaymentsOf(int id)
+        {
+            var user = _networkservice.GetOwner(id);
+            if (user == null) return NotFound();
+
+            var payments = _networkservice.GetAllPaymentsOf(user.Id);
+            if (payments == null) return NoContent();
+            return payments;
+        }
+
+        //TYPES
+        [HttpGet("types")]
+        public ActionResult<List<TypeItem>> GetTypes() =>
+            _networkservice.GetAllTypes();
+
+        [HttpGet("types/{id:length(24)}", Name = "GetType")]
+        public ActionResult<TypeItem> GetType(string id)
+        {
+            var type = _networkservice.GetType(id);
+
+            if (type == null)
+            {
+                return NotFound();
+            }
+
+            return type;
+        }
+
     }
 }
