@@ -5,7 +5,7 @@ using VetApi.Models;
 
 namespace VetApi.Services
 {
-    public class NetworkService
+    public class NetworkService : IUserManagementService
     {
         private readonly IMongoCollection<Pet> _pets;
         private readonly IMongoCollection<Owner> _owners;
@@ -123,5 +123,18 @@ namespace VetApi.Services
         public void RemoveVacc(string id) =>
             _vacc.DeleteOne(vacc => vacc.Id == id);
 
+        //CHECK USER
+        public string IsValidUser(string username, string password)
+        {
+            if (_vets.Find<Vet>(vet => vet.Username == username && vet.Password == password).FirstOrDefault() != null) return "vet";
+            if (_owners.Find<Owner>(owner => owner.Username == username && owner.Password == password).FirstOrDefault() != null) return "owner";
+            return "null";
+        }
+
+    }
+
+    public interface IUserManagementService
+    {
+        string IsValidUser(string username, string password);
     }
 }

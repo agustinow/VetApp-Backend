@@ -79,6 +79,14 @@ namespace VetApi.Models
         [BsonElement("Address")]
         [JsonProperty("Address")]
         public string Address { get; set; }
+
+        [BsonElement("Username")]
+        [JsonProperty("Username")]
+        public string Username { get; set; }
+
+        [BsonElement("Password")]
+        [JsonProperty("Password")]
+        public string Password { get; set; }
     }
 
     public class Vet
@@ -114,6 +122,14 @@ namespace VetApi.Models
         [BsonElement("Days_Off")]
         [JsonProperty("Days_Off")]
         public string Days_Off { get; set; }
+
+        [BsonElement("Username")]
+        [JsonProperty("Username")]
+        public string Username { get; set; }
+
+        [BsonElement("Password")]
+        [JsonProperty("Password")]
+        public string Password { get; set; }
     }
 
     public class Med

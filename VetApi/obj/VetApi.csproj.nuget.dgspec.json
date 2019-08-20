@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/Users/juansoler/Projects/VetApi/VetApi/VetApi.csproj": {}
+    "/Users/mobile/Projects/VetApp-Backend/VetApi/VetApi.csproj": {}
   },
   "projects": {
-    "/Users/juansoler/Projects/VetApi/VetApi/VetApi.csproj": {
+    "/Users/mobile/Projects/VetApp-Backend/VetApi/VetApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/juansoler/Projects/VetApi/VetApi/VetApi.csproj",
+        "projectUniqueName": "/Users/mobile/Projects/VetApp-Backend/VetApi/VetApi.csproj",
         "projectName": "VetApi",
-        "projectPath": "/Users/juansoler/Projects/VetApi/VetApi/VetApi.csproj",
-        "packagesPath": "/Users/juansoler/.nuget/packages/",
-        "outputPath": "/Users/juansoler/Projects/VetApi/VetApi/obj/",
+        "projectPath": "/Users/mobile/Projects/VetApp-Backend/VetApi/VetApi.csproj",
+        "packagesPath": "/Users/mobile/.nuget/packages/",
+        "outputPath": "/Users/mobile/Projects/VetApp-Backend/VetApi/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/juansoler/.config/NuGet/NuGet.Config"
+          "/Users/mobile/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
@@ -51,6 +51,7 @@
               "version": "[2.1.2, )"
             },
             "Microsoft.NETCore.App": {
+              "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.0, )",
               "autoReferenced": true
