@@ -24,5 +24,10 @@ namespace VetApi.Controllers
             if (_authService.IsAuthenticated(request, out string token)) return Ok(token);
             return BadRequest();
         }
+
+        [AllowAnonymous]
+        [HttpGet, Route("check")]
+        public IActionResult CheckConnection() =>
+            Ok();
     }
 }
