@@ -205,21 +205,21 @@ namespace VetApi.Services
 
 
         //CHECK USER
-        public string IsValidUser(string username, string password, out Boolean passwordRight)
+        public string IsValidUser(string username, string password, out String objectid)
         {
             var returnVal = "null";
-            passwordRight = false;
+            objectid = "";
             var vet = _vets.Find<Vet>(person => person.Username == username).FirstOrDefault();
             if (vet != null)
             {
                 returnVal = "vet";
-                passwordRight |= vet.Password == password;
+                objectid = vet.Id;
             }
             var owner = _owners.Find<Owner>(person => person.Username == username).FirstOrDefault();
             if (owner != null)
             {
                 returnVal = "owner";
-                passwordRight |= owner.Password == password;
+                objectid = owner.Id;
             }
             return returnVal;
         }
@@ -227,6 +227,6 @@ namespace VetApi.Services
 
     public interface IUserManagementService
     {
-        string IsValidUser(string username, string password, out Boolean passwordRight);
+        string IsValidUser(string username, string password, out String objectid);
     }
 }

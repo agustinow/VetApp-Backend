@@ -22,9 +22,10 @@ namespace VetApi.Services
         public bool IsAuthenticated(TokenRequest request, out TokenResponse response)
         {
             response = new TokenResponse();
-            var usr = _service.IsValidUser(request.Username, request.Password, out bool passwordRight);
+            var usr = _service.IsValidUser(request.Username, request.Password, out string objectid);
             response.Type = usr;
-            if (passwordRight)
+            response.Id = objectid;
+            if (objectid.Length > 1)
             {
                 var role = new Claim(ClaimTypes.Role, "null");
                 switch (usr)
