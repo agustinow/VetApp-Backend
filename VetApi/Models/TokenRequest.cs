@@ -14,4 +14,13 @@ namespace VetApi.Models
         [JsonProperty("password")]
         public string Password { get; set; }
     }
+
+    public class TokenResponse
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("token")]
+        public string Token { get; set; }
+    }
 }

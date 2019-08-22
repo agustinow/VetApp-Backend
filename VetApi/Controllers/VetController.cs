@@ -336,6 +336,46 @@ namespace VetApi.Controllers
             return consult;
         }
 
+        [HttpGet("consultsof/{id:length(24)}", Name = "GetConsultsOfOID")]
+        public ActionResult<List<Consult>> GetConsultsOfOID(string id)
+        {
+            var user = _networkservice.GetVet(id);
+            if (user == null) return NotFound();
+            var consults = _networkservice.GetAllConsultsOf(id);
+            if (consults == null) return NoContent();
+            return consults;
+        }
+
+        [HttpGet("consultsof/{id}", Name = "GetConsultsOf")]
+        public ActionResult<List<Consult>> GetConsultsOf(int id)
+        {
+            var user = _networkservice.GetVet(id);
+            if (user == null) return NotFound();
+            var consults = _networkservice.GetAllConsultsOf(user.Id);
+            if (consults == null) return NoContent();
+            return consults;
+        }
+
+        [HttpGet("consultsfor/{id:length(24)}", Name = "GetConsultsForOID")]
+        public ActionResult<List<Consult>> GetConsultsForOID(string id)
+        {
+            var pet = _networkservice.GetPet(id);
+            if (pet == null) return NotFound();
+            var consults = _networkservice.GetAllConsultsFor(id);
+            if (consults == null) return NoContent();
+            return consults;
+        }
+
+        [HttpGet("consultsfor/{id}", Name = "GetConsultsFor")]
+        public ActionResult<List<Consult>> GetConsultsFor(int id)
+        {
+            var pet = _networkservice.GetPet(id);
+            if (pet == null) return NotFound();
+            var consults = _networkservice.GetAllConsultsFor(pet.Id);
+            if (consults == null) return NoContent();
+            return consults;
+        }
+
         //PAYMENTS
         [HttpGet("payments")]
         public ActionResult<List<Payment>> GetPayments() =>

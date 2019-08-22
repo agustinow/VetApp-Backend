@@ -19,11 +19,11 @@ namespace VetApi.Services
             _tokenManagement = tokenManagement.Value;
         }
 
-        public bool IsAuthenticated(TokenRequest request, out string token)
+        public bool IsAuthenticated(TokenRequest request, out TokenResponse response)
         {
-            token = string.Empty;
+            response = new TokenResponse();
             var usr = _service.IsValidUser(request.Username, request.Password, out bool passwordRight);
-
+            response.Type = usr;
             if (passwordRight)
             {
                 var role = new Claim(ClaimTypes.Role, "null");
@@ -59,18 +59,18 @@ namespace VetApi.Services
                     expires: DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
                     signingCredentials: credentials
                 );
-                token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+                response.Token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
                 return true;
             }
             else
             {
                 if(usr == "null")
                 {
-                    token = "Invalid Username";
+                    response.Token = "Invalid Username";
                 }
                 else
                 {
-                    token = "Invalid Password";
+                    response.Token = "Invalid Password";
                 }
                 return false;
             }
@@ -80,6 +80,6 @@ namespace VetApi.Services
 
     public interface IAuthenticationService
     {
-        bool IsAuthenticated(TokenRequest request, out string token);
+        bool IsAuthenticated(TokenRequest request, out TokenResponse token);
     }
 }

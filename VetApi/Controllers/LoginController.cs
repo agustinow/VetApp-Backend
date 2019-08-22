@@ -23,8 +23,10 @@ namespace VetApi.Controllers
         public IActionResult RequestToken([FromBody] TokenRequest request)
         {
             if (!ModelState.IsValid) return BadRequest("Invalid Request");
-            if (_authService.IsAuthenticated(request, out string token)) return Ok(token);
-            else return StatusCode(401, token);
+            if (_authService.IsAuthenticated(request, out TokenResponse response)) {
+                return StatusCode(200, response);
+            }
+            else return StatusCode(401, response);
         }
 
         [AllowAnonymous]

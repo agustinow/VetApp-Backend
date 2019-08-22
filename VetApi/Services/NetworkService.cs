@@ -38,7 +38,10 @@ namespace VetApi.Services
             _pets.Find(pet => pet.Owner_ID == id).ToList();
 
         public Pet GetPet(string id) =>
-            _pets.Find<Pet>(pets => pets.Id == id).FirstOrDefault();
+            _pets.Find<Pet>(pet => pet.Id == id).FirstOrDefault();
+
+        public Pet GetPet(int id) =>
+            _pets.Find<Pet>(pet => pet.Pet_ID == id).FirstOrDefault();
 
         public List<Owner> GetAllOwner() =>
             _owners.Find(owners => true).ToList();
@@ -53,7 +56,10 @@ namespace VetApi.Services
             _vets.Find(vets => true).ToList();
 
         public Vet GetVet(string id) =>
-            _vets.Find<Vet>(vets => vets.Id == id).FirstOrDefault();
+            _vets.Find<Vet>(vet => vet.Id == id).FirstOrDefault();
+
+        public Vet GetVet(int id) =>
+            _vets.Find<Vet>(vet => vet.ID == id).FirstOrDefault();
 
         public List<Med> GetAllMed() =>
           _med.Find(med => true).ToList();
@@ -67,8 +73,51 @@ namespace VetApi.Services
         public Vacc GetVacc(string id) =>
             _vacc.Find<Vacc>(vacc => vacc.Id == id).FirstOrDefault();
 
-        public List<Consult> GetAllConsults() =>
-            _consults.Find(consult => true).ToList();
+        public List<Consult> GetAllConsults()
+        {
+            var consults = _consults.Find(consult => true).ToList();
+            foreach (Consult consult in consults)
+            {
+                var pet = this.GetPet(consult.PetID);
+                var vet = this.GetVet(consult.VetID);
+                if (pet != null) consult.PetName = pet.Name;
+                else consult.PetName = "";
+                if (vet != null) consult.VetName = vet.Name;
+                else consult.VetName = "";
+            }
+            return consults;
+        }
+
+        public List<Consult> GetAllConsultsOf(string vetID)
+        {
+            var consults = _consults.Find(consult => consult.VetID == vetID).ToList();
+            foreach (Consult consult in consults)
+            {
+                var pet = this.GetPet(consult.PetID);
+                var vet = this.GetVet(consult.VetID);
+                if (pet != null) consult.PetName = pet.Name;
+                else consult.PetName = "";
+                if (vet != null) consult.VetName = vet.Name;
+                else consult.VetName = "";
+            }
+            return consults;
+        }
+
+        public List<Consult> GetAllConsultsFor(string petID)
+        {
+            var consults = _consults.Find(consult => consult.PetID == petID).ToList();
+            foreach (Consult consult in consults)
+            {
+                var pet = this.GetPet(consult.PetID);
+                var vet = this.GetVet(consult.VetID);
+                if (pet != null) consult.PetName = pet.Name;
+                else consult.PetName = "";
+                if (vet != null) consult.VetName = vet.Name;
+                else consult.VetName = "";
+            }
+            return consults;
+        }
+
 
         public Consult GetConsult(string id) =>
             _consults.Find<Consult>(consult => consult.Id == id).FirstOrDefault();
