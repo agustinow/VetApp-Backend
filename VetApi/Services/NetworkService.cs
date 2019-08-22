@@ -156,17 +156,28 @@ namespace VetApi.Services
 
 
         //CHECK USER
-        public string IsValidUser(string username, string password)
+        public string IsValidUser(string username, string password, out Boolean passwordRight)
         {
-            if (_vets.Find<Vet>(vet => vet.Username == username && vet.Password == password).FirstOrDefault() != null) return "vet";
-            if (_owners.Find<Owner>(owner => owner.Username == username && owner.Password == password).FirstOrDefault() != null) return "owner";
-            return "null";
+            var returnVal = "null";
+            passwordRight = false;
+            var vet = _vets.Find<Vet>(person => person.Username == username).FirstOrDefault();
+            if (vet != null)
+            {
+                returnVal = "vet";
+                passwordRight |= vet.Password == password;
+            }
+            var owner = _owners.Find<Owner>(person => person.Username == username).FirstOrDefault();
+            if (owner != null)
+            {
+                returnVal = "owner";
+                passwordRight |= owner.Password == password;
+            }
+            return returnVal;
         }
-
     }
 
     public interface IUserManagementService
     {
-        string IsValidUser(string username, string password);
+        string IsValidUser(string username, string password, out Boolean passwordRight);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VetApi.Models;
@@ -18,11 +20,11 @@ namespace VetApi.Controllers
 
         [AllowAnonymous]
         [HttpPost, Route("request")]
-        public ActionResult RequestToken([FromBody] TokenRequest request)
+        public IActionResult RequestToken([FromBody] TokenRequest request)
         {
             if (!ModelState.IsValid) return BadRequest("Invalid Request");
             if (_authService.IsAuthenticated(request, out string token)) return Ok(token);
-            return BadRequest();
+            else return StatusCode(401, token);
         }
 
         [AllowAnonymous]

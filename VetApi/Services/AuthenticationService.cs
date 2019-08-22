@@ -22,35 +22,58 @@ namespace VetApi.Services
         public bool IsAuthenticated(TokenRequest request, out string token)
         {
             token = string.Empty;
-            var usr = _service.IsValidUser(request.Username, request.Password);
-            var role = new Claim(ClaimTypes.Role, "owner");
-            if (usr.Equals("null")) return false;
-            if (usr.Equals("vet"))
-            {
-                role = new Claim(ClaimTypes.Role, "vet");
-            }
-            else if (usr.Equals("admin"))
-            {
-                role = new Claim(ClaimTypes.Role, "admin");
-            }
+            var usr = _service.IsValidUser(request.Username, request.Password, out bool passwordRight);
 
-            var claim = new[]
+            if (passwordRight)
             {
-                new Claim(ClaimTypes.Name, request.Username),
-                role
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var jwtToken = new JwtSecurityToken(
-                _tokenManagement.Issuer,
-                _tokenManagement.Audience,
-                claim,
-                expires: DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
-                signingCredentials: credentials
-            );
-            token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-            return true;
+                var role = new Claim(ClaimTypes.Role, "null");
+                switch (usr)
+                {
+                    case "vet":
+                        {
+                            role = new Claim(ClaimTypes.Role, "vet");
+                            break;
+                        }
+                    case "owner":
+                        {
+                            role = new Claim(ClaimTypes.Role, "owner");
+                            break;
+                        }
+                    case "admin":
+                        {
+                            role = new Claim(ClaimTypes.Role, "admin");
+                            break;
+                        }
+                }
+                var claim = new[]
+                {
+                    new Claim(ClaimTypes.Name, request.Username),
+                    role
+                };
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var jwtToken = new JwtSecurityToken(
+                    _tokenManagement.Issuer,
+                    _tokenManagement.Audience,
+                    claim,
+                    expires: DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
+                    signingCredentials: credentials
+                );
+                token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+                return true;
+            }
+            else
+            {
+                if(usr == "null")
+                {
+                    token = "Invalid Username";
+                }
+                else
+                {
+                    token = "Invalid Password";
+                }
+                return false;
+            }
         }
 
     }
