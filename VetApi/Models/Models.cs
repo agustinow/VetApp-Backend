@@ -44,6 +44,9 @@ namespace VetApi.Models
         [BsonRepresentation(BsonType.ObjectId)]
         [JsonProperty("Owner_ID")]
         public string Owner_ID { get; set; }
+
+        [JsonProperty("Owner_Name")]
+        public string Owner_Name { get; set; }
     }
 
     public class Owner
@@ -86,6 +89,9 @@ namespace VetApi.Models
 
         [BsonElement("Password")]
         public string Password { get; set; }
+
+        [BsonElement("Salt")]
+        public string Salt { get; set; }
     }
 
     public class Vet
@@ -128,6 +134,9 @@ namespace VetApi.Models
 
         [BsonElement("Password")]
         public string Password { get; set; }
+
+        [BsonElement("Salt")]
+        public string Salt { get; set; }
     }
 
     public class Med

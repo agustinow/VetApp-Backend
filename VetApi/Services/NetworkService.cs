@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using MongoDB.Driver;
 using VetApi.Models;
 
@@ -31,17 +33,61 @@ namespace VetApi.Services
             _consults = database.GetCollection<Consult>(settings.ConsultCollectionName);
         }
         
-        public List<Pet> GetAllPet() =>
-            _pets.Find(pets => true).ToList();
+        public List<Pet> GetAllPet()
+        {
+            var pets = _pets.Find(pet => true).ToList();
+            foreach (Pet pet in pets)
+            {
+                pet.Owner_Name = GetOwner(pet.Owner_ID).Name;
+            }
+            return pets;
+        }
 
-        public List<Pet> GetAllPetsOf(string id) =>
-            _pets.Find(pet => pet.Owner_ID == id).ToList();
 
-        public Pet GetPet(string id) =>
-            _pets.Find<Pet>(pet => pet.Id == id).FirstOrDefault();
+        public List<Pet> GetAllPetsOf(string id)
+        {
+            var owner = GetOwner(id);
+            var pets = _pets.Find(pet => pet.Owner_ID == id).ToList();
+            foreach (Pet pet in pets)
+            {
+                pet.Owner_Name = owner.Name;
+            }
+            return pets;
+        }
 
-        public Pet GetPet(int id) =>
-            _pets.Find<Pet>(pet => pet.Pet_ID == id).FirstOrDefault();
+        public List<Pet> GetAllPetsAttendedBy(string id)
+        {
+            var consults = this.GetAllConsultsOf(id);
+            var oids = new List<String>();
+            var pets = new List<Pet>();
+            foreach(Consult consult in consults)
+            {
+                if (!oids.Contains(consult.PetID)) oids.Add(consult.PetID);
+            }
+            foreach(string oid in oids)
+            {
+                pets.Add(this.GetPet(oid));
+            }
+            foreach (Pet pet in pets)
+            {
+                pet.Owner_Name = GetOwner(pet.Owner_ID).Name;
+            }
+            return pets;
+        }
+
+        public Pet GetPet(string id)
+        {
+            var pet = _pets.Find<Pet>(elem => elem.Id == id).FirstOrDefault();
+            if (pet != null) pet.Owner_Name = GetOwner(pet.Owner_ID).Name;
+            return pet;
+        }
+            
+        public Pet GetPet(int id)
+        {
+            var pet = _pets.Find<Pet>(elem => elem.Pet_ID == id).FirstOrDefault();
+            if (pet != null) pet.Owner_Name = GetOwner(pet.Owner_ID).Name;
+            return pet;
+        }
 
         public List<Owner> GetAllOwner() =>
             _owners.Find(owners => true).ToList();
@@ -205,28 +251,54 @@ namespace VetApi.Services
 
 
         //CHECK USER
-        public string IsValidUser(string username, string password, out String objectid)
+        public string IsValidUser(string username, string password, out String objectid, out bool passRight)
         {
+            passRight = false;
             var returnVal = "null";
             objectid = "";
-            var vet = _vets.Find<Vet>(person => person.Username == username).FirstOrDefault();
+            var vet = _vets.Find(person => person.Username == username).FirstOrDefault();
             if (vet != null)
             {
                 returnVal = "vet";
                 objectid = vet.Id;
+                //PASSWORD CHECK
+                string preHash = vet.Salt + password;
+                var bytes = ASCIIEncoding.ASCII.GetBytes(preHash);
+                var hashed = new MD5CryptoServiceProvider().ComputeHash(bytes);
+                var hashedString = ByteArrayToString(hashed);
+                passRight = vet.Password.Equals(hashedString);
             }
             var owner = _owners.Find<Owner>(person => person.Username == username).FirstOrDefault();
             if (owner != null)
             {
                 returnVal = "owner";
                 objectid = owner.Id;
+                //PASSWORD CHECK
+                string preHash = owner.Salt + password;
+                var bytes = ASCIIEncoding.ASCII.GetBytes(preHash);
+                var hashed = new MD5CryptoServiceProvider().ComputeHash(bytes);
+                var hashedString = ByteArrayToString(hashed);
+                passRight = owner.Password.Equals(hashedString);
             }
+
+            //PASSWORD CHECK
+
             return returnVal;
+        }
+
+        private object ByteArrayToString(byte[] input)
+        {
+            StringBuilder sOutput = new StringBuilder(input.Length);
+            for (int i = 0; i < input.Length - 1; i++)
+            {
+                sOutput.Append(input[i].ToString("X2"));
+            }
+            return sOutput.ToString();
         }
     }
 
     public interface IUserManagementService
     {
-        string IsValidUser(string username, string password, out String objectid);
+        string IsValidUser(string username, string password, out String objectid, out bool passRight);
     }
 }

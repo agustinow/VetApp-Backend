@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using VetApi.Models;
 using VetApi.Services;
 
@@ -38,8 +41,23 @@ namespace VetApi.Controllers
         [Authorize(Policy = "RequireAdmin")]
         public ActionResult<Vet> CreateVet(Vet vet)
         {
-            _networkservice.CreateVet(vet);
+            const string allowedChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            Random rng = new Random();
+            char[] chars = new char[4];
+            for(int i = 0; i < chars.Length; i++)
+            {
+                chars[i] = allowedChars[rng.Next(0, allowedChars.Length)];
+            }
+            var salt = new string(chars);
+            var saltedPassword = salt + vet.Password;
 
+            var bytes = ASCIIEncoding.ASCII.GetBytes(saltedPassword);
+            var hashed = new MD5CryptoServiceProvider().ComputeHash(bytes);
+
+            vet.Password = ByteArrayToString(hashed);
+            vet.Salt = salt;
+
+            _networkservice.CreateVet(vet);
             return CreatedAtRoute("GetVet", new { id = vet.Id.ToString() }, vet);
         }
 
@@ -95,8 +113,8 @@ namespace VetApi.Controllers
             return pets;
         }
 
-        [HttpGet("pets/{id:length(24)}", Name = "GetPet")]
-        public ActionResult<Pet> GetPet(string id)
+        [HttpGet("pets/{id}", Name = "GetPet")]
+        public ActionResult<Pet> GetPet(int id)
         {
             var pet = _networkservice.GetPet(id);
 
@@ -106,6 +124,40 @@ namespace VetApi.Controllers
             }
 
             return pet;
+        }
+
+        [HttpGet("pets/{id:length(24)}", Name = "GetPetOID")]
+        public ActionResult<Pet> GetPetOID(string id)
+        {
+            var pet = _networkservice.GetPet(id);
+
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            return pet;
+        }
+
+        [HttpGet("petsattendedby/{id:length(24)}", Name = "GetPetsAttendedByOID")]
+        public ActionResult<List<Pet>> GetPetsAttendedByOID(string id)
+        {
+            var vet = _networkservice.GetVet(id);
+            if (vet == null) return NotFound();
+            var pets = _networkservice.GetAllPetsAttendedBy(vet.Id);
+            if (pets.Count < 1) return NoContent();
+            return pets;
+
+        }
+        [HttpGet("petsattendedby/{id}", Name = "GetPetsAttendedBy")]
+        public ActionResult<List<Pet>> GetPetsAttendedBy(int id)
+        {
+            var vet = _networkservice.GetVet(id);
+            if (vet == null) return NotFound();
+            var pets = _networkservice.GetAllPetsAttendedBy(vet.Id);
+            if (pets.Count < 1) return NoContent();
+            return pets;
+
         }
 
         [HttpPost("pets")]
@@ -168,6 +220,23 @@ namespace VetApi.Controllers
         [HttpPost("owners")]
         public ActionResult<Owner> CreateOwner(Owner owner)
         {
+
+            const string allowedChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            Random rng = new Random();
+            char[] chars = new char[4];
+            for (int i = 0; i < chars.Length; i++)
+            {
+                chars[i] = allowedChars[rng.Next(0, allowedChars.Length)];
+            }
+            var salt = new string(chars);
+            var saltedPassword = salt + owner.Password;
+
+            var bytes = ASCIIEncoding.ASCII.GetBytes(saltedPassword);
+            var hashed = new MD5CryptoServiceProvider().ComputeHash(bytes);
+
+            owner.Password = ByteArrayToString(hashed);
+            owner.Salt = salt;
+
             _networkservice.CreateOwner(owner);
 
             return CreatedAtRoute("GetOwner", new { id = owner.Id.ToString() }, owner);
@@ -436,5 +505,15 @@ namespace VetApi.Controllers
             return type;
         }
 
-    }
+        static string ByteArrayToString(byte[] input)
+        {
+            StringBuilder sOutput = new StringBuilder(input.Length);
+            for (int i = 0; i < input.Length - 1; i++)
+            {
+                sOutput.Append(input[i].ToString("X2"));
+            }
+            return sOutput.ToString();
+        }
+
+}
 }
