@@ -445,6 +445,15 @@ namespace VetApi.Controllers
             return consults;
         }
 
+        [HttpPost("consults")]
+        public ActionResult<Consult> CreateConsult(Consult consult)
+        {
+            _networkservice.CreateConsult(consult);
+
+            return CreatedAtRoute("consults", new { id = consult.Id.ToString() }, consult);
+        }
+
+
         //PAYMENTS
         [HttpGet("payments")]
         public ActionResult<List<Payment>> GetPayments() =>

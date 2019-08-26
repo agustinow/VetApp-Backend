@@ -84,13 +84,15 @@ namespace VetApi.Models
         public string Address { get; set; }
 
         [BsonElement("Username")]
-        [JsonProperty("Username")]
+        [JsonIgnore]
         public string Username { get; set; }
 
         [BsonElement("Password")]
+        [JsonIgnore]
         public string Password { get; set; }
 
         [BsonElement("Salt")]
+        [JsonIgnore]
         public string Salt { get; set; }
     }
 
@@ -129,13 +131,15 @@ namespace VetApi.Models
         public string Days_Off { get; set; }
 
         [BsonElement("Username")]
-        [JsonProperty("Username")]
+        [JsonIgnore]
         public string Username { get; set; }
 
         [BsonElement("Password")]
+        [JsonIgnore]
         public string Password { get; set; }
 
         [BsonElement("Salt")]
+        [JsonIgnore]
         public string Salt { get; set; }
     }
 

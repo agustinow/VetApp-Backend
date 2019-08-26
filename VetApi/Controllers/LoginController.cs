@@ -26,7 +26,7 @@ namespace VetApi.Controllers
             if (_authService.IsAuthenticated(request, out TokenResponse response)) {
                 return StatusCode(200, response);
             }
-            else return StatusCode(401, response);
+            else return StatusCode(400, "Invalid credentials");
         }
 
         [AllowAnonymous]

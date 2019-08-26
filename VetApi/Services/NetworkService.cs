@@ -250,6 +250,13 @@ namespace VetApi.Services
             _vacc.DeleteOne(vacc => vacc.Id == id);
 
 
+        public Consult CreateConsult(Consult consult)
+        {
+            _consults.InsertOne(consult);
+            return consult;
+        }
+
+
         //CHECK USER
         public string IsValidUser(string username, string password, out String objectid, out bool passRight)
         {
