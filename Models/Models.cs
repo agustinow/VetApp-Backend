@@ -298,5 +298,8 @@ namespace VetApi.Models
 
         [JsonProperty("VetName")]
         public string VetName { get; set; }
+
+        [JsonProperty("OwnerName")]
+        public string OwnerName { get; set; }
     }
 }

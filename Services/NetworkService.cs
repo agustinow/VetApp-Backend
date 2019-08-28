@@ -138,7 +138,9 @@ namespace VetApi.Services
 
                 bsonDoc = BsonExtensionMethods.ToJson(consult.VaccsBson);
                 consult.Vaccs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(bsonDoc);
-            }
+				consult.OwnerName = pet.Owner_Name;
+
+			}
             return consults;
         }
 
@@ -159,7 +161,9 @@ namespace VetApi.Services
 
                 bsonDoc = BsonExtensionMethods.ToJson(consult.VaccsBson);
                 consult.Vaccs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(bsonDoc);
-            }
+				consult.OwnerName = pet.Owner_Name;
+
+			}
             return consults;
         }
 
@@ -180,7 +184,10 @@ namespace VetApi.Services
 
                 bsonDoc = BsonExtensionMethods.ToJson(consult.VaccsBson);
                 consult.Vaccs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(bsonDoc);
-            }
+
+				consult.OwnerName = pet.Owner_Name;
+
+			}
             return consults;
         }
 
@@ -199,6 +206,7 @@ namespace VetApi.Services
 
             bsonDoc = BsonExtensionMethods.ToJson(consult.VaccsBson);
             consult.Vaccs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(bsonDoc);
+			consult.OwnerName = pet.Owner_Name;
 
             return consult;
         }
