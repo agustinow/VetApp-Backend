@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workbench>
     <Files>
       <File FileName="Program.cs" Line="1" Column="1" />
-      <File FileName="Models/Models.cs" />
+      <File FileName="Models/Models.cs" Line="1" Column="1" />
       <File FileName="Controllers/VetController.cs" />
     </Files>
     <Pads>
@@ -10,8 +10,10 @@
         <State name="__root__">
           <Node name="VetApi" expanded="True">
             <Node name="VetApi" expanded="True">
+              <Node name="Models" expanded="True">
+                <Node name="Models.cs" selected="True" />
+              </Node>
               <Node name="Services" expanded="True" />
-              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
