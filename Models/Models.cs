@@ -95,6 +95,10 @@ namespace VetApi.Models
         [BsonElement("Salt")]
         [JsonIgnore]
         public string Salt { get; set; }
+
+        [BsonElement("Photo")]
+        [JsonProperty("Photo")]
+        public string Photo { get; set; }
     }
 
     public class Vet
@@ -301,5 +305,9 @@ namespace VetApi.Models
 
         [JsonProperty("OwnerName")]
         public string OwnerName { get; set; }
+
+        [BsonElement("Genus")]
+        [JsonProperty("Genus")]
+        public string Genus { get; set; }
     }
 }
